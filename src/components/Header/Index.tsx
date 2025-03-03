@@ -5,6 +5,7 @@ import { CarrinhoIcon } from "../../common/icons/CarrinhoIcon";
 import { LogoIcon } from "../../common/icons/LogoIcon";
 import { PerfilIcon } from "../../common/icons/PerfilIcon";
 import { SearchIcon } from "../../common/icons/SearchIcon";
+import Button from "../Button";
 import Input from "../Input";
 import Typography from "../Typography";
 import Styles from "./Header.module.scss";
@@ -49,11 +50,13 @@ const Header = ({ cartCount, onSearch }: HeaderProps) => {
               value={query}
               onChange={handleInputChange}
               placeholder="O que você procura?"
-              icon={<SearchIcon />}
             />
-            <button onClick={handleSearch}>
-              <i className="fa fa-search"></i>
-            </button>
+            <Button
+              style={{ position: "relative", right: "36px" }}
+              onClick={handleSearch}
+            >
+              <SearchIcon />
+            </Button>
           </div>
           <div className={Styles.userActions}>
             <a href="#">Login</a>

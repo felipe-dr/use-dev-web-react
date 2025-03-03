@@ -71,7 +71,8 @@ function ProductDetail({
         </div>
 
         <div className={Styles.action}>
-          <Button icon={<AddCarrinhoIcon />} onClick={handleAddToCart}>
+          <Button onClick={handleAddToCart}>
+            <AddCarrinhoIcon />
             Adicionar ao carrinho
           </Button>
         </div>

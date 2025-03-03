@@ -1,5 +1,5 @@
 import { CSSProperties, MouseEvent, ReactNode } from "react";
-import classnames from "classnames"; // Para combinar classes dinamicamente
+import classnames from "classnames";
 import Styles from "./Button.module.css";
 
 type ButtonProps = {
@@ -8,8 +8,8 @@ type ButtonProps = {
   text?: string;
   icon?: ReactNode;
   variant?: "primary" | "secondary";
-  size?: "small" | "medium" | "large"; // Define diferentes tamanhos
-  onClick: (e: MouseEvent<HTMLElement>) => void; // Manipulação de click adicional
+  size?: "small" | "medium" | "large";
+  onClick: (e: MouseEvent<HTMLElement>) => void;
 };
 
 const Button = ({

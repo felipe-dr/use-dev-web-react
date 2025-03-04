@@ -2,7 +2,7 @@ import { CSSProperties } from "react";
 
 import Styles from "./Input.module.css";
 
-type InputProps = {
+export type InputProps = {
   variant?: "primary" | "secondary";
   placeholder?: string;
   value?: string;

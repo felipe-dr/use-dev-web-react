@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { AddCarrinhoIcon } from "../../common/icons/AddCarrinhoIcon";
 import { Product } from "../../common/types/product";
-import Button from "../Button";
+import IconButton from "../IconButton";
 import RadioButton from "../RadioButton";
 import Typography from "../Typography";
 import Styles from "./ProductDetail.module.css";
@@ -71,10 +71,10 @@ function ProductDetail({
         </div>
 
         <div className={Styles.action}>
-          <Button onClick={handleAddToCart}>
+          <IconButton onClick={handleAddToCart}>
             <AddCarrinhoIcon />
             Adicionar ao carrinho
-          </Button>
+          </IconButton>
         </div>
       </div>
     </section>

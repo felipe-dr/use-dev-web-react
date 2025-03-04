@@ -6,7 +6,7 @@ import { PRODUCTS_BASE_URL } from "../../common/constants/endpoints";
 import { Product } from "../../common/types/product";
 import StatusHandler from "../../common/utils/statusHandler";
 import BackgroundBanner from "../../components/BackgroundBanner";
-import ProductDetail from "../../components/ProductDetail/ProductDetail";
+import ProductDetail from "../../components/ProductDetail";
 import Typography from "../../components/Typography";
 import Styles from "./ProductDetailsPage.module.css";
 

@@ -6,7 +6,7 @@ import { LogoIcon } from "../../common/icons/LogoIcon";
 import { PerfilIcon } from "../../common/icons/PerfilIcon";
 import { SearchIcon } from "../../common/icons/SearchIcon";
 import Button from "../Button";
-import Input from "../Input";
+import IconInput from "../IconInput";
 import Typography from "../Typography";
 import Styles from "./Header.module.scss";
 
@@ -45,18 +45,19 @@ const Header = ({ cartCount, onSearch }: HeaderProps) => {
             </ul>
           </nav>
           <div className={Styles.searchContainer}>
-            <Input
+            <IconInput
               variant="secondary"
               value={query}
               onChange={handleInputChange}
               placeholder="O que você procura?"
-            />
-            <Button
-              style={{ position: "relative", right: "36px" }}
-              onClick={handleSearch}
             >
-              <SearchIcon />
-            </Button>
+              <Button
+                style={{ position: "relative", right: "36px" }}
+                onClick={handleSearch}
+              >
+                <SearchIcon />
+              </Button>
+            </IconInput>
           </div>
           <div className={Styles.userActions}>
             <a href="#">Login</a>

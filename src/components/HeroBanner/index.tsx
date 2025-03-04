@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import styles from "./HeroBanner.module.css";
 
-type HeroBannerProps = {
+export type HeroBannerProps = {
   backgroundImage?: string;
   mainImage?: string;
   children?: ReactNode;
@@ -13,22 +13,24 @@ const HeroBanner = ({
   mainImage,
   children,
 }: HeroBannerProps) => {
+  const backgroundImg = backgroundImage
+    ? { backgroundImage: `url(${backgroundImage})` }
+    : {};
+
   return (
     <section className={styles.heroBanner}>
-      <div
-        className={styles.gridOverlay}
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-      ></div>
+      <div className={styles.gridOverlay} style={backgroundImg}></div>
       <div className={styles.heroContent}>
-        <div className={styles.mainImageWrapper}>
-          <img
-            src={mainImage}
-            alt="Hora de abraças seu lado geek!"
-            className={styles.mainImage}
-          />
-        </div>
-
-        <div className={styles.textContent}>{children}</div>
+        {mainImage && (
+          <div className={styles.mainImageWrapper}>
+            <img
+              src={mainImage}
+              alt="Hora de abraçar seu lado geek!"
+              className={styles.mainImage}
+            />
+          </div>
+        )}
+        {children && <div className={styles.textContent}>{children}</div>}
       </div>
     </section>
   );

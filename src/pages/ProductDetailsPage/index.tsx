@@ -1,8 +1,7 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { PRODUCTS_BASE_URL } from "../../common/constants/endpoints";
+import useFetch from "../../common/hooks/useFetch";
 import { Product } from "../../common/types/product";
 import StatusHandler from "../../common/utils/statusHandler";
 import BackgroundBanner from "../../components/BackgroundBanner";
@@ -16,30 +15,14 @@ type ProductDetailsPageProps = {
 
 function ProductDetailsPage({ addToCart }: ProductDetailsPageProps) {
   const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    axios
-      .get(PRODUCTS_BASE_URL)
-      .then((response) => {
-        const foundProduct = response.data.products.find(
-          (product: Product) => product.id.toString() === id
-        );
-
-        if (foundProduct) {
-          setProduct(foundProduct);
-        } else {
-          setError("Produto não encontrado.");
-        }
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError("Erro ao carregar os detalhes do produto.");
-        setIsLoading(false);
-      });
-  }, [id]);
+  const {
+    data: productsData,
+    isLoading: isLoadingProduct,
+    error: productError,
+  } = useFetch<{ products: Product[] }>(PRODUCTS_BASE_URL);
+  const product = productsData?.products.find(
+    (productItem) => productItem.id.toString() === id
+  );
 
   return (
     <>
@@ -49,7 +32,7 @@ function ProductDetailsPage({ addToCart }: ProductDetailsPageProps) {
           <div className={Styles.productContainer}>
             <Typography variant="h4">Detalhes do Produto</Typography>
 
-            <StatusHandler isLoading={isLoading} error={error}>
+            <StatusHandler isLoading={isLoadingProduct} error={productError}>
               {product ? (
                 <ProductDetail
                   id={product.id}

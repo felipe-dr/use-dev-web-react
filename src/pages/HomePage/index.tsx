@@ -1,10 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-
 import {
   CATEGORIES_BASE_URL,
   PRODUCTS_BASE_URL,
 } from "../../common/constants/endpoints";
+import useFetch from "../../common/hooks/useFetch";
 import { Category } from "../../common/types/category";
 import { Product } from "../../common/types/product";
 import StatusHandler from "../../common/utils/statusHandler";
@@ -16,42 +14,21 @@ import ProductList from "../../components/ProductList";
 import Typography from "../../components/Typography";
 
 function HomePage() {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
-  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
-  const [categoriesError, setCategoriesError] = useState<string | null>(null);
-  const [productsError, setProductsError] = useState<string | null>(null);
-
   const handleSubscribe = (email: string) => {
     console.log(`Usuário inscrito com o email: ${email}`);
   };
 
-  useEffect(() => {
-    axios
-      .get(CATEGORIES_BASE_URL)
-      .then((response) => {
-        setCategories(response.data.categories);
-        setIsLoadingCategories(false);
-      })
-      .catch((err) => {
-        setCategoriesError("Erro ao carregar categorias.");
-        setIsLoadingCategories(false);
-      });
-  }, []);
+  const {
+    data: categoriesData,
+    isLoading: isLoadingCategories,
+    error: categoriesError,
+  } = useFetch<{ categories: Category[] }>(CATEGORIES_BASE_URL);
 
-  useEffect(() => {
-    axios
-      .get(PRODUCTS_BASE_URL)
-      .then((response) => {
-        setProducts(response.data.products);
-        setIsLoadingProducts(false);
-      })
-      .catch((err) => {
-        setProductsError("Erro ao carregar produtos.");
-        setIsLoadingProducts(false);
-      });
-  }, []);
+  const {
+    data: productsData,
+    isLoading: isLoadingProducts,
+    error: productsError,
+  } = useFetch<{ products: Product[] }>(PRODUCTS_BASE_URL);
 
   return (
     <>
@@ -69,11 +46,18 @@ function HomePage() {
       </HeroBanner>
       <main className="container">
         <StatusHandler isLoading={isLoadingCategories} error={categoriesError}>
-          <Categories categories={categories} />
+          {categoriesData && (
+            <Categories categories={categoriesData?.categories} />
+          )}
         </StatusHandler>
 
         <StatusHandler isLoading={isLoadingProducts} error={productsError}>
-          <ProductList title="Promoções especiais" products={products} />
+          {productsData && (
+            <ProductList
+              title="Promoções especiais"
+              products={productsData?.products}
+            />
+          )}
         </StatusHandler>
       </main>
       <Newsletter onSubscribe={handleSubscribe} />

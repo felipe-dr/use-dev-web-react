@@ -1,10 +1,8 @@
-import {
-  CATEGORIES_BASE_URL,
-  PRODUCTS_BASE_URL,
-} from "../../common/constants/endpoints";
-import useFetch from "../../common/hooks/useFetch";
-import { Category } from "../../common/types/category";
-import { Product } from "../../common/types/product";
+import { useFetchCategories } from "../../common/hooks/useFetchCategories";
+import useFetchProducts from "../../common/hooks/useFetchProducts";
+import Http from "../../common/lib/httpClient";
+import CategoryService from "../../common/services/categoryService";
+import ProductService from "../../common/services/productService";
 import StatusHandler from "../../common/utils/statusHandler";
 import Button from "../../components/Button";
 import Categories from "../../components/Categories";
@@ -13,22 +11,26 @@ import Newsletter from "../../components/Newsletter";
 import ProductList from "../../components/ProductList";
 import Typography from "../../components/Typography";
 
+const httpService = Http();
+const productService = ProductService(httpService);
+const categoryService = CategoryService(httpService);
+
 function HomePage() {
   const handleSubscribe = (email: string) => {
     console.log(`Usuário inscrito com o email: ${email}`);
   };
 
   const {
-    data: categoriesData,
+    categories,
     isLoading: isLoadingCategories,
     error: categoriesError,
-  } = useFetch<{ categories: Category[] }>(CATEGORIES_BASE_URL);
+  } = useFetchCategories(categoryService);
 
   const {
-    data: productsData,
+    products,
     isLoading: isLoadingProducts,
     error: productsError,
-  } = useFetch<{ products: Product[] }>(PRODUCTS_BASE_URL);
+  } = useFetchProducts(productService);
 
   return (
     <>
@@ -46,17 +48,12 @@ function HomePage() {
       </HeroBanner>
       <main className="container">
         <StatusHandler isLoading={isLoadingCategories} error={categoriesError}>
-          {categoriesData && (
-            <Categories categories={categoriesData?.categories} />
-          )}
+          {categories && <Categories categories={categories} />}
         </StatusHandler>
 
         <StatusHandler isLoading={isLoadingProducts} error={productsError}>
-          {productsData && (
-            <ProductList
-              title="Promoções especiais"
-              products={productsData?.products}
-            />
+          {products && (
+            <ProductList title="Promoções especiais" products={products} />
           )}
         </StatusHandler>
       </main>
